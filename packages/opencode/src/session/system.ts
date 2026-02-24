@@ -9,6 +9,8 @@ import PROMPT_GEMINI from "./prompt/gemini.txt"
 
 import PROMPT_CODEX from "./prompt/codex_header.txt"
 import PROMPT_TRINITY from "./prompt/trinity.txt"
+import PROMPT_RULES from "./prompt/rules.txt"
+
 import type { Provider } from "@/provider/provider"
 
 // kilocode_change start
@@ -21,20 +23,15 @@ export namespace SystemPrompt {
     return PROMPT_CODEX.trim()
   }
 
-  // kilocode_change start
+  // kilocode_change - Use custom rules instead of default soul
   export function soul() {
-    return SOUL.trim()
+    return PROMPT_RULES.trim()
   }
   // kilocode_change end
 
+  // kilocode_change - Custom rules for all models
   export function provider(model: Provider.Model) {
-    if (model.api.id.includes("gpt-5")) return [PROMPT_CODEX]
-    if (model.api.id.includes("gpt-") || model.api.id.includes("o1") || model.api.id.includes("o3"))
-      return [PROMPT_BEAST]
-    if (model.api.id.includes("gemini-")) return [PROMPT_GEMINI]
-    if (model.api.id.includes("claude")) return [PROMPT_ANTHROPIC]
-    if (model.api.id.toLowerCase().includes("trinity")) return [PROMPT_TRINITY]
-    return [PROMPT_ANTHROPIC_WITHOUT_TODO]
+    return [PROMPT_RULES]
   }
 
   // kilocode_change start
